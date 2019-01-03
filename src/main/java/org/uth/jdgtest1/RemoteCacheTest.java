@@ -52,6 +52,6 @@ public class RemoteCacheTest
   
   private static void log( String message )
   {
-    System.out.println( "[Tech-Talk - Remote Cache Fetch] " + message );
+    System.out.println( "[Remote Cache Fetch] " + message );
   }    
 }

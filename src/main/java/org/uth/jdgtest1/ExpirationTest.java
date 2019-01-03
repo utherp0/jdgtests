@@ -69,6 +69,6 @@ public class ExpirationTest
 
   private static void log( String message )
   {
-    System.out.println( "[TechTalk - ExpirationTest] " + message );
+    System.out.println( "[ExpirationTest] " + message );
   }
 }

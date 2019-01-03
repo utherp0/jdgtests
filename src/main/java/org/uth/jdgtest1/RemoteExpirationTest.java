@@ -81,6 +81,6 @@ public class RemoteExpirationTest
 
   private static void log( String message )
   {
-    System.out.println( "[TechTalk - RemoteExpirationTest] " + message );
+    System.out.println( "[RemoteExpirationTest] " + message );
   }
 }

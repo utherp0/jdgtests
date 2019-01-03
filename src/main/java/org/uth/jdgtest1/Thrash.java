@@ -90,6 +90,6 @@ public class Thrash
   
   private static void log( String message )
   {
-    System.out.println( "[Tech-Talk - Thrash] " + message );
+    System.out.println( "[Thrash] " + message );
   }
 }

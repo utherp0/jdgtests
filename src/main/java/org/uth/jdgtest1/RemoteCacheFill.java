@@ -100,6 +100,6 @@ public class RemoteCacheFill
   
   private static void log( String message )
   {
-    System.out.println( "[Tech-Talk - Remote Cache Fill] " + message );
+    System.out.println( "[Remote Cache Fill] " + message );
   }  
 }
