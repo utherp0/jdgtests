@@ -2,13 +2,40 @@ package org.uth.jdgtest1.utils;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class RESTHandle
 {
+  private static String _user = null;
+  private static String _password = null;
+
+  public RESTHandle()
+  {
+
+  }
+
+  public RESTHandle( String user, String password )
+  {
+    _user = user;
+    _password = password;
+  }
+
+  private void applyAuth( HttpURLConnection connection )
+  {
+    if( _user == null ) return;
+
+    String authString = _user + ":" + _password;
+    String authStringEnc = new String( Base64.getEncoder().encode(authString.getBytes()) );
+    connection.setRequestProperty("Authorization", "Basic " + authStringEnc);
+  }
+
   public int put(String urlServerAddress, String value) throws IOException 
   {
     URL address = new URL(urlServerAddress); 
-    HttpURLConnection connection = (HttpURLConnection)
+    HttpURLConnection connection = (HttpURLConnection)address.openConnection();
+
+    applyAuth(connection);
+
     address.openConnection();
 
     connection.setRequestMethod("PUT"); 
@@ -33,7 +60,10 @@ public class RESTHandle
     StringBuilder stringBuilder = new StringBuilder();
 
     URL address = new URL(urlServerAddress); 
-    HttpURLConnection connection = (HttpURLConnection) address.openConnection();
+    HttpURLConnection connection = (HttpURLConnection)address.openConnection();
+
+    applyAuth(connection);
+
     connection.setRequestMethod("GET"); 
     connection.setRequestProperty("Content-Type", "text/plain"); 
     connection.setDoOutput(true);
@@ -52,8 +82,9 @@ public class RESTHandle
   public int delete( String urlServerAddress, String value ) throws IOException
   {
     URL address = new URL(urlServerAddress); 
-    HttpURLConnection connection = (HttpURLConnection)
-    address.openConnection();
+    HttpURLConnection connection = (HttpURLConnection)address.openConnection();
+
+    applyAuth(connection);
 
     connection.setRequestMethod("DELETE"); 
     connection.setRequestProperty("Content-Type", "text/plain"); 
@@ -73,13 +104,14 @@ public class RESTHandle
   
   public static void main( String args[] )
   {
-    if( args.length !=2 )
+    if( args.length !=2 && args.length != 4 )
     {
       System.out.println( "Usage: java RESTHandle datagridURL exampleData");
+      System.out.println( "Usage: java RESTHandle datagridURL exampleData user password");
       System.exit(0);
     }
 
-    RESTHandle handle = new RESTHandle();
+    RESTHandle handle = ( args.length == 4 ? new RESTHandle( args[2], args[3]) : new RESTHandle() );
 
     String urlServerAddress = args[0];
     String value = args[1];
